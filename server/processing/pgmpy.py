@@ -48,7 +48,7 @@ def create_bayesian_model():
             ("is_animal", "have_tail"),
             ("is_animal", "is_cat"),
             ("is_animal", "is_dragon"),
-            ("is_cat", "from_tom_and_jerry"),
+            ("characters", "from_tom_and_jerry"),
             ("characters", "in_detective_story"),
             ("in_detective_story", "is_detective"),
             ("in_detective_story", "wear_clothes"),

@@ -1,7 +1,11 @@
 <template>
    <!-- <Button @click="changeDatabase()">Change Database</Button> -->
    <div class="p-6">
-      <Button>
+      <Button
+         variant="outline"
+         :as="RouterLink"
+         :to="{ name: 'home-page' }"
+      >
          <ArrowLeftFromLine class="w-4 h-4 mr-2" />
          {{
             gameLanguage.value == 'en' ? 'Back To Home' : 'Về trang chủ'
@@ -9,8 +13,10 @@
       >
    </div>
 
-   <div class="grid grid-cols-2 p-6 gap-x-4">
-      <div class="akinator-photo grid place-content-center p-4">
+   <div class="grid grid-cols-2 p-6 gap-x-4 md:pt-0 md:gap-0 lg:grid-cols-5">
+      <div
+         class="akinator-photo grid place-content-center p-4 lg:col-start-1 lg:col-end-3"
+      >
          <div v-show="predictCharacterIsShown == false">
             <img
                :src="akinatorPosePhoto"
@@ -26,19 +32,21 @@
          </div>
       </div>
 
-      <div class="flex items-center">
+      <div class="flex items-center lg:col-start-3 lg:col-end-6">
          <Card
             v-show="predictCharacterIsShown == false"
             class="w-full"
          >
-            <CardHeader class="flex-column p-0 mb-6 border-b">
+            <CardHeader class="flex-column p-0 mb-4 lg:mb-6 border-b">
                <!-- Skeleton here -->
                <div
                   v-show="questionSkeletionIsShown == true"
                   class="flex items-center justify-stretch space-x-4 p-4"
                >
-                  <Skeleton class="h-20 w-20 rounded-lg bg-slate-200" />
-                  <Skeleton class="h-12 grow bg-slate-200" />
+                  <Skeleton
+                     class="h-20 lg:h-[120px] w-20 lg:w-[120px] rounded-lg bg-slate-200"
+                  />
+                  <Skeleton class="h-12 lg:h-[80px] grow bg-slate-200" />
                </div>
 
                <div
@@ -46,21 +54,24 @@
                   class="flex"
                >
                   <div
-                     class="flex question-number p-7 bg-primary text-primary-foreground items-center justify-center"
+                     class="flex question-number p-7 lg:p-10 bg-primary text-primary-foreground items-center justify-center"
                   >
                      <p class="text-2xl font-bold">
                         {{ questionNumber }}
                      </p>
                   </div>
-                  <CardTitle class="p-4 text-xl">
+                  <CardTitle class="p-4 text-lg lg:text-xl">
                      {{ questionContent }}</CardTitle
                   >
                </div>
             </CardHeader>
-            <CardContent class="grid gap-y-4">
-               <RadioGroup default-value="comfortable">
+            <CardContent class="grid p-4 lg:p-6 pt-0 lg:pt-0 gap-y-4">
+               <RadioGroup
+                  default-value="comfortable"
+                  class="lg:gap-y-6"
+               >
                   <div
-                     class="flex items-center space-x-2"
+                     class="flex items-center"
                      v-for="choice in choices"
                   >
                      <RadioGroupItem
@@ -108,20 +119,18 @@
                   {{ predictedCharacter?.anime_name }}
                </p>
                <div
-                  class="predict-character-photo rounded-lg border-2 border-slate-800 overflow-hidden p-3 mt-4"
+                  class="predict-character-photo rounded-lg border-2 border-slate-800 overflow-hidden mt-4 flex justify-center"
                >
                   <img
                      :src="predictedCharacter?.image_address"
                      alt=""
-                     class="rounded-md object-cover aspect-square object-top"
+                     class="rounded-md object-cover aspect-square object-top max-h-[480px]"
                   />
                </div>
             </CardContent>
 
             <CardFooter>
-               <div
-                  class="w-full px-4 grid grid-flow-col justify-stretch gap-x-4"
-               >
+               <div class="w-full grid grid-flow-col justify-stretch gap-x-4">
                   <Button
                      variant="secondary"
                      class="text-base"
@@ -160,7 +169,7 @@
    import { onMounted, ref, onBeforeMount, watch } from 'vue';
    import CardFooter from '@/components/ui/card/CardFooter.vue';
    import { Annoyed, PartyPopper, ArrowLeftFromLine } from 'lucide-vue-next';
-   import { RouterLink } from 'vue-router';
+   import { RouterLink, useRouter } from 'vue-router';
 
    type Question = {
       attribute: string;
@@ -213,6 +222,8 @@
    const akinatorPosePhoto = ref<string>('');
    const questionSkeletionIsShown = ref(false);
    const predictCharacterIsShown = ref(false);
+   const isMaxQuestion = ref(false);
+   const router = useRouter();
 
    const renderQuestion = (question: Question) => {
       if (question != null) {
@@ -235,8 +246,21 @@
    };
 
    const continueGame = () => {
-      predictCharacterIsShown.value = false;
-      predictedCharacter.value = null;
+      if (localStorage.getItem('is_max_question') !== null) {
+         isMaxQuestion.value = JSON.parse(
+            localStorage.getItem('is_max_question')
+         );
+      }
+
+      if (isMaxQuestion.value === false) {
+         predictCharacterIsShown.value = false;
+         predictedCharacter.value = null;
+      } else {
+         predictCharacterIsShown.value = true;
+         router.push({
+            name: 'result-page',
+         });
+      }
    };
 
    const mainGamePathOnServer = 'http://localhost:5000/main-game';
@@ -275,6 +299,10 @@
          question.value = res.data?.next_question;
          renderQuestion(res.data?.next_question);
          questionSkeletionIsShown.value = false;
+
+         if (res.data?.max_question !== null) {
+            localStorage.setItem('is_max_question', res.data?.max_question);
+         }
 
          if (res.data?.predict_character_result !== null) {
             predictedCharacter.value = JSON.parse(

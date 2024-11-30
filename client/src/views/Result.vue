@@ -7,25 +7,49 @@
       >
          {{ gameLanguage == 'en' ? 'Result' : 'Kết quả' }}
       </h1>
-      <div class="akinator-photo col-start-1 col-end-5 row-start-3 row-end-10">
+      <div
+         class="akinator-photo col-start-1 col-end-5 row-start-3 row-end-10"
+         :class="{ 'col-start-3 col-end-9': isMaxQuestion === true }"
+      >
          <img
+            v-if="isMaxQuestion === false"
             src="../assets/photos/pose5.png"
+            alt=""
+         />
+         <img
+            v-else
+            src="../assets/photos/pose6.png"
             alt=""
          />
       </div>
       <Card
          class="col-start-3 col-end-7 row-start-2 row-end-4 bg-primary text-primary-foreground text-center z-[100]"
+         :class="{ 'col-start-4 col-end-8': isMaxQuestion === true }"
       >
-         <CardContent class="p-6">
+         <CardContent
+            class="p-6"
+            v-if="isMaxQuestion === false"
+         >
             {{
                gameLanguage == 'en'
                   ? 'I guessed right one more time!'
-                  : 'Tôi lại đoán đúng lần nữa rồi!'
+                  : 'Tui lại đoán đúng lần nữa rồi!'
+            }}</CardContent
+         >
+         <CardContent
+            class="p-6"
+            v-if="isMaxQuestion === true"
+         >
+            {{
+               gameLanguage == 'en' ? 'You beat me...' : 'Tui chịu thua luôn...'
             }}</CardContent
          >
       </Card>
 
-      <Card class="w-full col-start-6 col-end-11 row-start-3 row-end-10">
+      <Card
+         class="w-full col-start-6 col-end-11 row-start-3 row-end-10"
+         v-if="isMaxQuestion === false"
+      >
          <CardContent class="text-center grid p-6">
             <p
                class="predict-character-name text-2xl text-slate-800 font-extrabold uppercase"
@@ -36,12 +60,12 @@
                {{ predictedCharacter?.anime_name }}
             </p>
             <div
-               class="predict-character-photo rounded-lg border-2 border-slate-800 overflow-hidden p-3 mt-4"
+               class="predict-character-photo rounded-lg border-2 border-slate-800 overflow-hidden mt-4 flex justify-center"
             >
                <img
                   :src="predictedCharacter?.image_address"
                   alt=""
-                  class="rounded-md object-cover aspect-square object-top"
+                  class="rounded-md object-cover aspect-square object-top max-h-[480px]"
                />
             </div>
          </CardContent>
@@ -79,8 +103,10 @@
 
    const predictedCharacter = ref(null);
    const gameLanguage = ref<string>('');
+   const isMaxQuestion = ref(false);
 
    onBeforeMount(() => {
+      isMaxQuestion.value = JSON.parse(localStorage.getItem('is_max_question'));
       predictedCharacter.value = JSON.parse(
          localStorage.getItem('predicted_character')
       );

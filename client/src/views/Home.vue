@@ -1,43 +1,54 @@
 <template>
-   <div
-      class="grid grid-cols-10 grid-rows-5 items-center justify-center min-w-full px-4"
-   >
-      <h1
-         class="game-name col-start-4 col-end-8 row-start-1 row-end-2 text-center"
+   <div class="game-name flex justify-center pt-6">
+      <img
+         src="../assets/photos/logo.png"
+         alt=""
+         class="object-cover h-[120px] lg:h-[200px]"
+      />
+   </div>
+   <div class="grid grid-cols-12 grid-rows-3 px-4">
+      <div
+         class="akinator-photo flex justify-center row-span-full col-start-3 col-end-11"
       >
-         Read Your Mind
-      </h1>
-      <div class="akinator-photo col-start-4 col-end-8 row-start-1 row-end-6">
          <img
             src="../assets/photos/pose1.png"
             alt=""
+            class="object-cover h-[360px] lg:h-[480px]"
          />
       </div>
-      <Card
-         class="col-start-2 col-end-4 row-start-2 row-end-4 bg-primary text-primary-foreground text-center"
+      <div
+         class="row-start-1 row-span-1 col-start-2 col-end-6 flex items-end lg:col-start-3 lg:col-end-6"
       >
-         <CardContent class="p-6"
-            >{{
-               gameLanguage == 'en'
-                  ? 'Hello, I am Akinator'
-                  : 'Xin chào, tôi là Akinator'
-            }}
-         </CardContent>
-      </Card>
-      <Card
-         class="col-start-8 col-end-11 row-start-3 row-end-4 bg-primary text-primary-foreground text-center"
-      >
-         <CardContent class="p-6">
-            {{
-               gameLanguage == 'en'
-                  ? 'Think about an character from anime. I will try to guess who it is'
-                  : 'Nghĩ về một nhân vật trong phim hoạt hình và tôi sẽ đoán xem đó là ai'
-            }}
-         </CardContent>
-      </Card>
+         <Card class="bg-primary text-primary-foreground text-center">
+            <CardContent class="p-4 lg:text-xl"
+               >{{
+                  gameLanguage == 'en'
+                     ? 'Hello, I am Akinator'
+                     : 'Xin chào, tui là Akinator'
+               }}
+            </CardContent>
+         </Card>
+      </div>
+
+      <div class="row-start-2 row-span-1 col-start-9 col-end-13 lg:col-end-12">
+         <Card
+            class="bg-primary text-primary-foreground text-center lg:text-xl"
+         >
+            <CardContent class="p-4">
+               {{
+                  gameLanguage == 'en'
+                     ? 'Think about an character from anime. I will try to guess who it is'
+                     : 'Nghĩ về một nhân vật trong anime và tui sẽ đoán xem đó là ai'
+               }}
+            </CardContent>
+         </Card>
+      </div>
+   </div>
+
+   <div class="flex justify-center">
       <Button
          variant="ghost"
-         class="row-start-5 row-end-6 col-start-4 col-end-8 text-4xl h-20 uppercase font-black"
+         class="text-4xl h-20 uppercase font-black px-10"
          :as="RouterLink"
          :to="{ name: 'game-page' }"
          >{{ gameLanguage == 'en' ? 'Play' : 'Chơi' }}</Button

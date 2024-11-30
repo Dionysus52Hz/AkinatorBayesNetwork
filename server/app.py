@@ -326,6 +326,17 @@ def main_game():
             request_data = request.get_json()
             response = None
 
+            if request_data["answer"] == 0.5:
+                sql = "SELECT DISTINCT {} FROM Characters".format(
+                    request_data["attribute"]
+                )
+                enum_answer = (
+                    np.array(sql_db(db, sql).df().values.tolist()).flatten().tolist()
+                )
+                print(enum_answer)
+                if 0.5 not in enum_answer:
+                    request_data["answer"] = random.choice([0, 1])
+
             evidence_by_player = {
                 request_data["attribute"]: request_data["answer"],
             }

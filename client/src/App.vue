@@ -1,38 +1,5 @@
 <template>
-   <!-- <nav>
-      <NavigationMenu>
-         <NavigationMenuList>
-            <NavigationMenuItem>
-               <NavigationMenuLink
-                  :class="navigationMenuTriggerStyle()"
-                  :as="RouterLink"
-                  :to="{ name: 'home-page' }"
-               >
-                  Home
-               </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-               <NavigationMenuLink
-                  :class="navigationMenuTriggerStyle()"
-                  :as="RouterLink"
-                  :to="{ name: 'game-page' }"
-                  >Game</NavigationMenuLink
-               >
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-               <NavigationMenuLink
-                  :class="navigationMenuTriggerStyle()"
-                  :as="RouterLink"
-                  :to="{ name: 'result-page' }"
-                  >Result</NavigationMenuLink
-               >
-            </NavigationMenuItem>
-         </NavigationMenuList>
-      </NavigationMenu>
-   </nav> -->
-   <main>
+   <main class="max-w-[1320px] mx-auto">
       <router-view></router-view>
    </main>
 </template>
