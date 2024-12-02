@@ -60,7 +60,7 @@
                {{ predictedCharacter?.anime_name }}
             </p>
             <div
-               class="predict-character-photo rounded-lg border-2 border-slate-800 overflow-hidden mt-4 flex justify-center"
+               class="predict-character-photo rounded-lg border-2 border-slate-800 overflow-hidden mt-4 flex justify-center p-3"
             >
                <img
                   :src="predictedCharacter?.image_address"

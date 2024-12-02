@@ -182,10 +182,10 @@ def change_database():
         values = list(accuracy_dict.values())
 
         # Vẽ biểu đồ cột
-        plt.bar(categories, values, color="blue")
+        plt.bar(categories, values, color=["#363636"])
 
         # Thêm tiêu đề và nhãn cho các trục
-        plt.title("Accuracy After 10 Tests")
+        plt.title("Accuracy After 10 Tests with k = 40")
         plt.ylabel("Accuracy")
 
         # Xoay nhãn trục x để dễ đọc
@@ -422,7 +422,7 @@ def generate_next_question(model, attributes: list, evidences_so_far: dict):
     )
     # keys = list(entropy_table.keys())[:12]
     # values = list(entropy_table.values())[:12]
-    # plt.bar(keys, values, color="blue", alpha=1.0)
+    # plt.bar(keys, values, color=["#363636"], alpha=1.0)
 
     # # Thêm tiêu đề và nhãn
     # plt.title("Entropy for nodes")
@@ -432,6 +432,8 @@ def generate_next_question(model, attributes: list, evidences_so_far: dict):
 
     # # Hiện thị biểu đồ
     # plt.grid(axis="y")
+    # plt.xticks(rotation=30)
+
     # plt.show()
     # for i in visited_order:
     #     print(i, end=" -> ")

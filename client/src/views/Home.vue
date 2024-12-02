@@ -38,7 +38,7 @@
                {{
                   gameLanguage == 'en'
                      ? 'Think about an character from anime. I will try to guess who it is'
-                     : 'Nghĩ về một nhân vật trong anime và tui sẽ đoán xem đó là ai'
+                     : 'Nghĩ về một nhân vật trong phim hoạt hình và tui sẽ đoán xem đó là ai'
                }}
             </CardContent>
          </Card>
@@ -126,7 +126,7 @@
       </FormField>
       <Button type="submit"> Submit </Button>
    </form> -->
-   <Button @click="changeDatabase">Change database</Button>
+   <!-- <Button @click="changeDatabase">Change database</Button> -->
 </template>
 <script setup lang="ts">
    import { Button } from '@/components/ui/button';
